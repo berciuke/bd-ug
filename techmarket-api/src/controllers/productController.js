@@ -1,32 +1,61 @@
-const products = require("../data/products");
-// Pobieranie wszystkich produktów
-addProduct({ test: "SRE" });
-modifyProduct(5, {category: "Headphones", brand: "Huawei"});
-deleteProduct(4)
-console.log(downloadAllProducts());
+const fs = require("fs");
+const path = require("path");
+
+let products = readProducts();
+
+
+function readProducts() {
+  return require("../data/products.js");
+}
+
+function writeProducts() {
+  const filePath = path.join(__dirname, "../data/products.js");
+  const productsFiltered = products.filter((o) => Object.keys(o).length > 0);
+  const content = `const products = ${JSON.stringify(
+    productsFiltered,
+    null,
+    2
+  )};\n\nmodule.exports = products;`;
+  fs.writeFileSync(filePath, content, "utf8");
+}
 
 function downloadAllProducts() {
+  products = readProducts()
   return products;
 }
-// Pobieranie pojedynczego produktu po ID
 function downloadProduct(searchId) {
+  products = readProducts()
   return products.find(({ id }) => id == searchId);
 }
-// Dodawanie nowego produktu
+
 function addProduct(product) {
+  products = readProducts()
   products.push(product);
+  writeProducts();
 }
-// Aktualizacja produktu
+
 function modifyProduct(productId, newObj) {
+  products = readProducts()
   const i = products.findIndex(({ id }) => id == productId);
   if (i > -1) {
     products[i] = { ...products[i], ...newObj };
+    writeProducts()
   }
 }
-// Usuwanie produktu
+
 function deleteProduct(productId) {
+  products = readProducts()
   const i = products.findIndex(({ id }) => id == productId);
   if (i > -1) {
     products[i] = {};
+    writeProducts()
   }
 }
+
+module.exports = {
+  downloadAllProducts,
+  downloadProduct,
+  addProduct,
+  modifyProduct,
+  deleteProduct,
+};
