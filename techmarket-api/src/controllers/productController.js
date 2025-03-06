@@ -3,52 +3,49 @@ const path = require("path");
 
 let products = readProducts();
 
-
 function readProducts() {
-  return require("../data/products.js");
+  const filePath = path.join(__dirname, "../data/products.json");
+  const data = fs.readFileSync(filePath, "utf8");
+  return JSON.parse(data);
 }
 
 function writeProducts() {
-  const filePath = path.join(__dirname, "../data/products.js");
+  const filePath = path.join(__dirname, "../data/products.json");
   const productsFiltered = products.filter((o) => Object.keys(o).length > 0);
-  const content = `const products = ${JSON.stringify(
-    productsFiltered,
-    null,
-    2
-  )};\n\nmodule.exports = products;`;
-  fs.writeFileSync(filePath, content, "utf8");
+  fs.writeFileSync(filePath, JSON.stringify(productsFiltered, null, 2), "utf8");
 }
 
 function downloadAllProducts() {
-  products = readProducts()
+  products = readProducts();
   return products;
 }
+
 function downloadProduct(searchId) {
-  products = readProducts()
+  products = readProducts();
   return products.find(({ id }) => id == searchId);
 }
 
 function addProduct(product) {
-  products = readProducts()
+  products = readProducts();
   products.push(product);
   writeProducts();
 }
 
 function modifyProduct(productId, newObj) {
-  products = readProducts()
+  products = readProducts();
   const i = products.findIndex(({ id }) => id == productId);
   if (i > -1) {
     products[i] = { ...products[i], ...newObj };
-    writeProducts()
+    writeProducts();
   }
 }
 
 function deleteProduct(productId) {
-  products = readProducts()
+  products = readProducts();
   const i = products.findIndex(({ id }) => id == productId);
   if (i > -1) {
     products[i] = {};
-    writeProducts()
+    writeProducts();
   }
 }
 
