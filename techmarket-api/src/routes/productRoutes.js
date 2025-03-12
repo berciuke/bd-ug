@@ -61,7 +61,7 @@ router.post("/", (req, res) => {
   }
 });
 
-router.put("/:id", (req, res) => {
+router.patch("/:id", (req, res) => {
   try {
     const product = downloadProduct(req.params.id);
     if (!product) {

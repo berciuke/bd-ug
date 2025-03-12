@@ -16,8 +16,17 @@ function writeProducts() {
 }
 
 function downloadAllProducts() {
-  products = readProducts();
-  return products;
+  try {
+    products = readProducts();
+    res.status(200).json(products);
+  } catch (error) {
+    res
+      .status(500)
+      .json({
+        message: "Błąd podczas pobierania produktów",
+        error: error.message,
+      });
+  }
 }
 
 function downloadProduct(searchId) {

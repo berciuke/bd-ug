@@ -51,12 +51,24 @@
     "id": 5,
     "name": "Sony WH-1000XM3",
     "category": "Słuchawki",
-    "description": "Bezprzewodowe słuchawki Sony z aktywną redukcją szumów",
+    "description": "fajne słuchawki",
     "price": 699.99,
     "stockCount": 3,
     "brand": "Sony",
     "imageUrl": "https://example.com/sonywh1000xm3.jpg",
     "isAvailable": true,
     "createdAt": "2025-03-05T23:10:12.512Z"
+  },
+  {
+    "id": 6,
+    "name": "Sony WH-1000XM3",
+    "category": "Słuchawki",
+    "description": "Bezprzewodowe słuchawki Sony z aktywną redukcją szumów",
+    "price": 699.99,
+    "stockCount": 3,
+    "brand": "Sony",
+    "imageUrl": "https://example.com/sonywh1000xm3.jpg",
+    "isAvailable": true,
+    "createdAt": "2025-03-06T13:40:29.085Z"
   }
 ]
