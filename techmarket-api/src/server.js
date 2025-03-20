@@ -10,6 +10,9 @@ require("../config/db");
 const app = express();
 const port = process.env.API_PORT || 9999;
 const productsRouter = require("./routes/productRoutes");
+const usersRouter = require("./routes/userRoutes");
+const reviewsRouter = require("./routes/reviewRoutes");
+const categoriesRouter = require("./routes/categoryRoutes");
 const {
   errorHandlerMiddleware,
   notFoundMiddleware,
@@ -20,9 +23,11 @@ app.use(morgan("dev"));
 app.use(bodyParser.json());
 
 app.use("/products", productsRouter);
+app.use("/categories", categoriesRouter);
+app.use("/users", usersRouter);
+app.use("/reviews", reviewsRouter);
 
 app.use(notFoundMiddleware);
-
 app.use(errorHandlerMiddleware);
 
 const server = app.listen(port, function () {
