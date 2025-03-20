@@ -4,10 +4,11 @@ const path = require("path");
 const cors = require("cors");
 const morgan = require("morgan");
 
-require("dotenv").config({ path: path.join(__dirname, ".env") });
+require("dotenv").config({ path: path.join(__dirname, "../.env") });
+require("../config/db");
 
 const app = express();
-const port = process.env.PORT || 8081;
+const port = process.env.API_PORT || 9999;
 const productsRouter = require("./routes/productRoutes");
 const {
   errorHandlerMiddleware,

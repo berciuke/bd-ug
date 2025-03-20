@@ -7,11 +7,12 @@ const {
   updateProduct,
   removeProduct
 } = require("../controllers/productController");
+const { validateProductData } = require("../middleware/validationMiddleware");
 
 router.get("/", getAllProducts);
 router.get("/:id", getProduct);
-router.post("/", createProduct);
-router.patch("/:id", updateProduct);
+router.post("/", validateProductData(false), createProduct);
+router.patch("/:id", validateProductData(true), updateProduct);
 router.delete("/:id", removeProduct);
 
 module.exports = router;
