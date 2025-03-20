@@ -1,4 +1,4 @@
-const pool = require('../../config/db');
+  const pool = require('../../config/db');
 
 const Product = {
   getAll: async (filters = {}) => {
@@ -34,10 +34,10 @@ const Product = {
   },
 
   create: async (productData) => {
-    const { name, description, price, stock_quantity, category_id } = productData;
+    const { name, description, price, stock_quantity, category } = productData;
     const { rows } = await pool.query(
-      'INSERT INTO products (name, description, price, stock_quantity, category_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [name, description, price, stock_quantity || 0, category_id]
+      'INSERT INTO products (name, description, price, stock_quantity, category) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [name, description, price, stock_quantity || 0, category]
     );
     return rows[0];
   },
@@ -52,8 +52,8 @@ const Product = {
     const updates = { ...currentProduct, ...productData, updated_at: new Date() };
     
     const { rows: updatedRows } = await pool.query(
-      'UPDATE products SET name = $1, description = $2, price = $3, stock_quantity = $4, category_id = $5, updated_at = $6 WHERE id = $7 RETURNING *',
-      [updates.name, updates.description, updates.price, updates.stock_quantity, updates.category_id, updates.updated_at, id]
+      'UPDATE products SET name = $1, description = $2, price = $3, stock_quantity = $4, category = $5, updated_at = $6 WHERE id = $7 RETURNING *',
+      [updates.name, updates.description, updates.price, updates.stock_quantity, updates.category, updates.updated_at, id]
     );
     
     return updatedRows[0];
