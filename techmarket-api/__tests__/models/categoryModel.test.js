@@ -1,17 +1,14 @@
 const pool = require("../../config/db");
 const Category = require("../../src/models/categoryModel");
-
-const clearCategoryTestData = async () => {
-  await pool.query("DELETE FROM categories WHERE name LIKE 'Test%'");
-};
+const { clearTestData } = require("../testUtils");
 
 describe("Model Kategorii", () => {
   beforeEach(async () => {
-    await clearCategoryTestData();
+    await clearTestData();
   });
 
   afterAll(async () => {
-    await clearCategoryTestData();
+    await clearTestData();
     await pool.end();
   });
 
@@ -34,7 +31,7 @@ describe("Model Kategorii", () => {
     };
 
     await Category.create(categoryData);
-
+    // Druga próba dodania tej samej kategorii – oczekujemy błędu unikalności (kod 23505)
     await expect(Category.create(categoryData)).rejects.toThrow();
   });
 

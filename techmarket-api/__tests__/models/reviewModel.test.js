@@ -3,15 +3,16 @@ const Review = require("../../src/models/reviewModel");
 const Product = require("../../src/models/productModel");
 const User = require("../../src/models/userModel");
 const Category = require("../../src/models/categoryModel");
+const { clearTestData } = require("../testUtils");
 
 describe("Model Recenzji", () => {
   let testProductId, testUserId;
 
   beforeAll(async () => {
-    await pool.query("DELETE FROM reviews WHERE comment LIKE 'Test%'");
-    await pool.query("DELETE FROM users WHERE username LIKE 'testuser%'");
-    await pool.query("DELETE FROM products WHERE name LIKE 'Testowy%'");
+    // Czyścimy dane testowe
+    await clearTestData();
 
+    // Utwórz kategorię oraz produkt do testów recenzji – nazwy muszą się zaczynać od "Test"
     const category = await Category.create({
       name: "Testowa Kategoria",
       description: "Kategoria do testów",
@@ -26,6 +27,7 @@ describe("Model Recenzji", () => {
     });
     testProductId = product.id;
 
+    // Utwórz użytkownika testowego
     const user = await User.create({
       username: "testuser_review",
       email: "testuser_review@example.com",
@@ -37,10 +39,7 @@ describe("Model Recenzji", () => {
   });
 
   afterAll(async () => {
-    await pool.query("DELETE FROM reviews WHERE comment LIKE 'Test%'");
-    await pool.query("DELETE FROM users WHERE username LIKE 'testuser%'");
-    await pool.query("DELETE FROM products WHERE name LIKE 'Testowy%'");
-    await pool.query("DELETE FROM categories WHERE name LIKE 'Testowa%'");
+    await clearTestData();
     await pool.end();
   });
 

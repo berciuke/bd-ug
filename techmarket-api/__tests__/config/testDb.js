@@ -1,5 +1,4 @@
 const { Pool } = require("pg");
-const fs = require("fs");
 const path = require("path");
 
 require("dotenv").config({ path: path.join(__dirname, "../../.env") });
@@ -11,5 +10,14 @@ const pool = new Pool({
   password: process.env.TEST_DB_PASSWORD || process.env.DB_PASSWORD || "root",
   port: process.env.TEST_DB_PORT || process.env.DB_PORT || 5432,
 });
+
+describe('Test połączenia z bazą danych', () => {
+  it('powinno połączyć się z bazą danych', async () => {
+    const client = await pool.connect();
+    expect(client).toBeDefined();
+    client.release();
+  });
+});
+
 
 module.exports = pool;

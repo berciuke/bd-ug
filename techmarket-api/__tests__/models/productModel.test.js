@@ -1,22 +1,14 @@
 const pool = require("../../config/db");
 const Product = require("../../src/models/productModel");
 const Category = require("../../src/models/categoryModel");
-
-const clearProductTestData = async () => {
-  await pool.query("DELETE FROM products WHERE name LIKE 'Test%'");
-};
-
-const clearCategoryTestData = async () => {
-  await pool.query("DELETE FROM categories WHERE name LIKE 'Test%'");
-};
+const { clearTestData } = require("../testUtils");
 
 describe("Model Produktu", () => {
   let testCategoryId;
 
   beforeAll(async () => {
-    await clearProductTestData();
-    await clearCategoryTestData();
-
+    await clearTestData();
+    // Utwórz kategorię testową – nazwa musi się zaczynać od "Test" (np. "Testowa Kategoria Produktów")
     const category = await Category.create({
       name: "Testowa Kategoria Produktów",
       description: "Kategoria do testów produktów",
@@ -25,12 +17,13 @@ describe("Model Produktu", () => {
   });
 
   afterEach(async () => {
-    await clearProductTestData();
+    // Usuwamy tylko produkty, aby nie usunąć kategorii testowej
+    await pool.query("DELETE FROM products WHERE name LIKE 'Test%'");
   });
 
   afterAll(async () => {
-    await clearProductTestData();
-    await clearCategoryTestData();
+    // Na zakończenie wyczyść wszystkie dane i zakończ połączenie
+    await clearTestData();
     await pool.end();
   });
 
@@ -62,7 +55,6 @@ describe("Model Produktu", () => {
     };
 
     await Product.create(productData);
-
     await expect(Product.create(productData)).rejects.toThrow();
   });
 

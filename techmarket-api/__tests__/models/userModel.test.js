@@ -1,17 +1,14 @@
 const pool = require("../../config/db");
 const User = require("../../src/models/userModel");
-
-const clearUserTestData = async () => {
-  await pool.query("DELETE FROM users WHERE username LIKE 'testuser%'");
-};
+const { clearTestData } = require("../testUtils");
 
 describe("Model Użytkownika", () => {
   beforeEach(async () => {
-    await clearUserTestData();
+    await clearTestData();
   });
 
   afterAll(async () => {
-    await clearUserTestData();
+    await clearTestData();
     await pool.end();
   });
 

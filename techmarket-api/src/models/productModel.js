@@ -81,10 +81,11 @@ const Product = {
     
     const { rows } = await pool.query(
       'INSERT INTO products (name, description, price, stock_quantity, category_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [name, description, price, stock_quantity || 0, category_id || null]
+      [name, description, price, stock_quantity || 0, category_id]
     );
     return rows[0];
   },
+  
 
   update: async (id, productData) => {
     const { rows } = await pool.query('SELECT * FROM products WHERE id = $1', [id]);
